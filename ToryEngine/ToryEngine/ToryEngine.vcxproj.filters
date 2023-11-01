@@ -18,6 +18,9 @@
     <Filter Include="소스 파일\99. Headers\Trashes">
       <UniqueIdentifier>{9bbe6230-7cef-4943-80e2-4358d3f54da4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\98.Shader">
+      <UniqueIdentifier>{ba89e7bc-282c-4211-b1bb-8941a56fe89e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ToryEngine.h">
@@ -71,5 +74,10 @@
     <ClCompile Include="Game.cpp">
       <Filter>소스 파일\01. Main</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Default.hlsl">
+      <Filter>소스 파일\98.Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
