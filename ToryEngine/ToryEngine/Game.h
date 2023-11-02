@@ -25,12 +25,12 @@ private:
 private:
 	void CreateGeometry();
 	void CreateInputLayout();
-
 	void CreateVS();
 	void CreatePS();
 
 	void CreateSRV();
 
+	void CreateConstantBuffer();
 
 	void LoadShaderFromFile(const wstring& path, const string& name, const string& version, ComPtr<ID3DBlob>& blob);
 
@@ -71,5 +71,10 @@ private:
 
 	// SRV
 	ComPtr<ID3D11ShaderResourceView> _shaderResourceView;
-	// [CPU <-> RAM] [GPU <-> VRAM]
+	// [CPU <-> RAM] [GPU <-> VRAM]\
+
+private:
+	// SRT
+	TransformData _transformData;
+	ComPtr<ID3D11Buffer> _constantBuffer;
 };

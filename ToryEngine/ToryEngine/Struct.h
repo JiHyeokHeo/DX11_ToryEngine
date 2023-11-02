@@ -7,3 +7,9 @@ struct Vertex
 	//Color color; 
 	Vector2 uv;
 };
+
+struct TransformData
+{
+	Vector3 offset;
+	float dummy;
+};

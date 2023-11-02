@@ -12,12 +12,18 @@ struct VS_OUTPUT
     //float4 color : COLOR;
     float2 uv : TEXCOORD;
 };
+
+cbuffer TrasnfromData : register(b0)
+{
+    float4 offset;
+}
+
 //     ¿©±â
 // IA - VS - RS - PS - OM
 VS_OUTPUT VS(VS_INPUT input)
 {
     VS_OUTPUT output;
-    output.postion = input.postion;
+    output.postion = input.postion + offset;
     output.uv= input.uv;
     
     return output;
