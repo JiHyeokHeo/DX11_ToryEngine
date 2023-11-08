@@ -34,8 +34,15 @@ void Game::Init(HWND hwnd)
 
 void Game::Update()
 {
-	_transformData.offset.x = 0.3f;
-	_transformData.offset.y = 0.3f;
+	Matrix matScale = Matrix::CreateScale(_localScale);
+	Matrix matRotation = Matrix::CreateRotationX(_localRotation.x);
+	matRotation *= Matrix::CreateRotationY(_localRotation.y);
+	matRotation *= Matrix::CreateRotationZ(_localRotation.z);
+	Matrix matTranslation = Matrix::CreateTranslation(_localPosition);
+
+	Matrix matWorld = matScale * matRotation * matTranslation; // SRT
+	_transformData.matWorld = matWorld;
+
 	D3D11_MAPPED_SUBRESOURCE subResource;
 	ZeroMemory(&subResource, sizeof(subResource));
 	_deviceContext->Map(_constantBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &subResource);

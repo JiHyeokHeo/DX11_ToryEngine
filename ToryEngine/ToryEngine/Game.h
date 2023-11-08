@@ -1,5 +1,4 @@
 #pragma once
-
 class Game
 {
 public:
@@ -85,4 +84,8 @@ private:
 	// SRT
 	TransformData _transformData;
 	ComPtr<ID3D11Buffer> _constantBuffer;
+
+	Vector3 _localPosition = { 0.f, 0.f, 0.f };
+	Vector3 _localRotation = { 0.f, 0.f, 0.f };
+	Vector3 _localScale = { 1.f, 1.f, 1.f };
 };
