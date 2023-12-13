@@ -13,7 +13,11 @@ void Game::Init(HWND hwnd)
 {
 	_hwnd = hwnd;
 	
-	_graphics = make_shared<Graphics>(hwnd);
+	//_graphics = make_shared<Graphics>(hwnd);
+	_graphics = new Graphics(hwnd);
+	_vertexBuffer = new VertexBuffer(_graphics->GetDevice()); 
+	_indexBuffer = new IndexBuffer(_graphics->GetDevice());
+	_inputLayout = new InputLayout(_graphics->GetDevice());
 
 	CreateGeometry();
 	CreateVS();
@@ -23,6 +27,7 @@ void Game::Init(HWND hwnd)
 	CreateRasterizerState();
 	CreateSamplerState();
 	CreateBlendState();
+
 	CreateSRV();
 	CreateConstantBuffer();
 }
@@ -54,9 +59,9 @@ void Game::Render()
 		uint32 offset = 0;
 		auto _deviceContext = _graphics->GetDeviceContext();
 		// IA
-		_deviceContext->IASetVertexBuffers(0, 1, _vertexBuffer.GetAddressOf(), &stride, &offset);
-		_deviceContext->IASetIndexBuffer(_indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
-		_deviceContext->IASetInputLayout(_inputLayerout.Get());
+		_deviceContext->IASetVertexBuffers(0, 1, _vertexBuffer->GetComPtr().GetAddressOf(), &stride, &offset);
+		_deviceContext->IASetIndexBuffer(_indexBuffer->GetComPtr().Get(), DXGI_FORMAT_R32_UINT, 0);
+		_deviceContext->IASetInputLayout(_inputLayout->GetComPtr().Get());
 		_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		
 		// VS
@@ -108,18 +113,7 @@ void Game::CreateGeometry()
 
 	// VertexBuffer
 	{
-		D3D11_BUFFER_DESC desc;
-		ZeroMemory(&desc, sizeof(desc));
-		desc.Usage = D3D11_USAGE_IMMUTABLE;
-		desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-		desc.ByteWidth = (uint32)sizeof(Vertex) * _vertexes.size();
-
-		D3D11_SUBRESOURCE_DATA data;
-		ZeroMemory(&data, sizeof(data));
-		data.pSysMem = _vertexes.data();
-
-		HRESULT hr = _graphics->GetDevice()->CreateBuffer(&desc, &data, _vertexBuffer.GetAddressOf());
-		assert(SUCCEEDED(hr));
+		_vertexBuffer->Create(_vertexes);
 	}
 
 	// Index
@@ -138,31 +132,19 @@ void Game::CreateGeometry()
 
 	// IndexBuffer
 	{
-		D3D11_BUFFER_DESC desc;
-		ZeroMemory(&desc, sizeof(desc));
-		desc.Usage = D3D11_USAGE_IMMUTABLE;
-		desc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-		desc.ByteWidth = (uint32)sizeof(Vertex) * _indexes.size();
-
-		D3D11_SUBRESOURCE_DATA data;
-		ZeroMemory(&data, sizeof(data));
-		data.pSysMem = _indexes.data();
-
-		HRESULT hr = _graphics->GetDevice()->CreateBuffer(&desc, &data, _indexBuffer.GetAddressOf());
-		assert(SUCCEEDED(hr));
+		_indexBuffer->Create(_indexes);
 	}
 }
 
 void Game::CreateInputLayout()
 {
-	D3D11_INPUT_ELEMENT_DESC layout[] =
+	vector<D3D11_INPUT_ELEMENT_DESC> layout =
 	{
 		{"POSITION",0,DXGI_FORMAT_R32G32B32_FLOAT, 0,0, D3D11_INPUT_PER_VERTEX_DATA, 0},
 		{"TEXCOORD",0,DXGI_FORMAT_R32G32_FLOAT, 0,12, D3D11_INPUT_PER_VERTEX_DATA, 0},
 	};
 
-	const int32 count = sizeof(layout) / sizeof(D3D11_INPUT_ELEMENT_DESC);
-	_graphics->GetDevice()->CreateInputLayout(layout, count, _vsBlob->GetBufferPointer(), _vsBlob->GetBufferSize(), _inputLayerout.GetAddressOf());
+	_inputLayout->Create(layout, _vsBlob);
 }
 
 void Game::CreateVS()
@@ -228,7 +210,7 @@ void Game::CreateSRV()
 {
 	DirectX::TexMetadata md;
 	DirectX::ScratchImage img;
-	HRESULT hr = ::LoadFromWICFile(L"link.png", WIC_FLAGS_NONE, &md, img);
+	HRESULT hr = ::LoadFromWICFile(L"Skeleton.png", WIC_FLAGS_NONE, &md, img);
 	assert(SUCCEEDED(hr));
 
 	hr = ::CreateShaderResourceView(_graphics->GetDevice().Get(), img.GetImages(), img.GetImageCount(), md, _shaderResourceView.GetAddressOf());

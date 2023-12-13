@@ -28,15 +28,17 @@ private:
 
 private:
 	HWND _hwnd;
-	shared_ptr<Graphics> _graphics;
+	Graphics* _graphics;
+	
 
 private:
 	// Geometry
-	std::vector<Vertex> _vertexes;
-	ComPtr<ID3D11Buffer> _vertexBuffer;
+	vector<Vertex> _vertexes;
+	VertexBuffer* _vertexBuffer;
+
 	vector<uint32> _indexes;
-	ComPtr<ID3D11InputLayout> _inputLayerout;
-	ComPtr<ID3D11Buffer> _indexBuffer;
+	IndexBuffer* _indexBuffer;
+	InputLayout* _inputLayout;
 
 	// VS
 	ComPtr<ID3D11VertexShader> _vertexShader;
