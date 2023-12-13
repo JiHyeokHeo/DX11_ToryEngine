@@ -10,6 +10,7 @@
 #include <map>
 #include <unordered_map>
 #include <string>
+#include <memory>
 using namespace std;
 
 // WIN
@@ -34,3 +35,6 @@ using namespace Microsoft::WRL;
 #else
 #pragma comment(lib, "DirectXTex\\Release\\DirectXTex.lib")
 #endif
+
+// Engine
+#include "Graphics.h"

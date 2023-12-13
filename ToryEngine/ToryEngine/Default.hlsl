@@ -26,9 +26,10 @@ VS_OUTPUT VS(VS_INPUT input)
 {
     VS_OUTPUT output;
     
-    float4 position = mul(input.postion, matWorld);
-    position = mul(position, matView);
-    position = mul(position, matProjection);
+    // WVP
+    float4 position = mul(input.postion, matWorld); // W
+    position = mul(position, matView); // V
+    position = mul(position, matProjection); // P
     
     output.postion = position;
     output.uv= input.uv;
