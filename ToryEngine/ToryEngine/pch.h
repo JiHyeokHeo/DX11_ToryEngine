@@ -5,12 +5,12 @@
 #include "Struct.h"
 
 // STL
+#include <memory>
 #include <vector>
 #include <list>
 #include <map>
 #include <unordered_map>
 #include <string>
-#include <memory>
 using namespace std;
 
 // WIN
@@ -41,3 +41,6 @@ using namespace Microsoft::WRL;
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 #include "InputLayout.h"
+#include "Geometry.h"
+#include "GeometryHelper.h"
+#include "VertexData.h"

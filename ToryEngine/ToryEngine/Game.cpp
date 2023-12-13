@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Game.h"
 
+
 Game::Game()
 {
 }
@@ -13,11 +14,11 @@ void Game::Init(HWND hwnd)
 {
 	_hwnd = hwnd;
 	
-	//_graphics = make_shared<Graphics>(hwnd);
-	_graphics = new Graphics(hwnd);
-	_vertexBuffer = new VertexBuffer(_graphics->GetDevice()); 
-	_indexBuffer = new IndexBuffer(_graphics->GetDevice());
-	_inputLayout = new InputLayout(_graphics->GetDevice());
+	_graphics = make_shared<Graphics>(hwnd);
+	_vertexBuffer = make_shared<VertexBuffer>(_graphics->GetDevice());
+	_indexBuffer = make_shared<IndexBuffer>(_graphics->GetDevice());
+	_inputLayout = make_shared<InputLayout>(_graphics->GetDevice());
+	_geometry = make_shared<Geometry<VertexTextureData>>();
 
 	CreateGeometry();
 	CreateVS();
@@ -55,7 +56,7 @@ void Game::Render()
 {
 	_graphics->RenderBegin();
 	{
-		uint32 stride = sizeof(Vertex);
+		uint32 stride = sizeof(VertexTextureData);
 		uint32 offset = 0;
 		auto _deviceContext = _graphics->GetDeviceContext();
 		// IA
@@ -80,7 +81,7 @@ void Game::Render()
 		// OM
 		_deviceContext->OMSetBlendState(_blendState.Get(), nullptr, 0xFFFFFFFF);
 		//_deviceContext->Draw(_vertexes.size(), 0);
-		_deviceContext->DrawIndexed(_indexes.size(), 0, 0);
+		_deviceContext->DrawIndexed(_geometry->GetIndexCount(), 0, 0);
 	}
 
 	_graphics->RenderEnd();
@@ -89,51 +90,13 @@ void Game::Render()
 void Game::CreateGeometry()
 {
 	// VertexData
-	{
-		_vertexes.resize(4);
-		
-		// 1 3
-		// 0 2
-		_vertexes[0].position = Vector3(-0.5f, -0.5f, 0.f);
-		_vertexes[0].uv = Vector2(0.f, 1.f);
-		//_vertexes[0].color = Color(1.f, 0.f, 0.f, 1.f);
-		
-		_vertexes[1].position = Vector3(-0.5f, 0.5f, 0.f);
-		_vertexes[1].uv = Vector2(0.f, 0.f);
-		//_vertexes[1].color = Color(1.f, 0.f, 0.f, 1.f);
-
-		_vertexes[2].position = Vector3(0.5f, -0.5f, 0.f);
-		_vertexes[2].uv = Vector2(1.f, 1.f);
-		//_vertexes[2].color = Color(1.f, 0.f, 0.f, 1.f);
-
-		_vertexes[3].position = Vector3(0.5f, 0.5f, 0.f);
-		_vertexes[3].uv = Vector2(1.f, 0.f);
-		//_vertexes[3].color = Color(1.f, 0.f, 0.f, 1.f);
-	}
+	GeometryHelper::CreateRectangle(_geometry);
 
 	// VertexBuffer
-	{
-		_vertexBuffer->Create(_vertexes);
-	}
-
-	// Index
-		// 1 3
-		// 0 2
-	{
-		_indexes.resize(6);
-		_indexes.push_back(0);
-		_indexes.push_back(1);
-		_indexes.push_back(2);
-
-		_indexes.push_back(2);
-		_indexes.push_back(1);
-		_indexes.push_back(3);
-	}
+	_vertexBuffer->Create(_geometry->GetVertexes());
 
 	// IndexBuffer
-	{
-		_indexBuffer->Create(_indexes);
-	}
+	_indexBuffer->Create(_geometry->GetIndexes());
 }
 
 void Game::CreateInputLayout()
