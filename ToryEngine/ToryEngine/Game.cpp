@@ -24,6 +24,12 @@ void Game::Init(HWND hwnd)
 	_constantBuffer = make_shared<ConstantBuffer<TransformData>>(_graphics->GetDevice(), _graphics->GetDeviceContext());
 	_texture1 = make_shared<Texture>(_graphics->GetDevice());
 
+	_rasterizerState = make_shared<RasterizerState>(_graphics->GetDevice());
+	_samplerState = make_shared<SamplerState>(_graphics->GetDevice());
+	_blendState = make_shared<BlendState>(_graphics->GetDevice());
+
+	_pipeline = make_shared<Pipeline>(_graphics->GetDevice());
+
 	// VertexData
 	GeometryHelper::CreateRectangle(_geometry);
 	// VertexBuffer
@@ -32,14 +38,12 @@ void Game::Init(HWND hwnd)
 	_indexBuffer->Create(_geometry->GetIndexes());
 
 	_vertexShader->Create(L"Default.hlsl", "VS", "vs_5_0");
-
 	_inputLayout->Create(VertexTextureData::descs, _vertexShader->GetBlob());
-
 	_pixelShader->Create(L"Default.hlsl", "PS", "ps_5_0");
 
-	CreateRasterizerState();
-	CreateSamplerState();
-	CreateBlendState();
+	_rasterizerState->Create();
+	_samplerState->Create();
+	_blendState->Create();
 
 	_texture1->Create(L"Skeleton.png");
 
@@ -64,93 +68,28 @@ void Game::Render()
 {
 	_graphics->RenderBegin();
 	{
-		uint32 stride = sizeof(VertexTextureData);
-		uint32 offset = 0;
+		PipelineInfo info;
+		info.inputLayout = _inputLayout;
+		info.vertexShader = _vertexShader;
+		info.pixelShader = _pixelShader;
+		info.rasterizerState = _rasterizerState;
+		info.blendState = _blendState;
+
+		_pipeline->UpdatePipeline(info);
+
 		auto _deviceContext = _graphics->GetDeviceContext();
-		// IA
-		_deviceContext->IASetVertexBuffers(0, 1, _vertexBuffer->GetComPtr().GetAddressOf(), &stride, &offset);
-		_deviceContext->IASetIndexBuffer(_indexBuffer->GetComPtr().Get(), DXGI_FORMAT_R32_UINT, 0);
-		_deviceContext->IASetInputLayout(_inputLayout->GetComPtr().Get());
-		_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-		
-		// VS
-		_deviceContext->VSSetShader(_vertexShader->GetComPtr().Get(), nullptr, 0);
-		_deviceContext->VSSetConstantBuffers(0, 1, _constantBuffer->GetComPtr().GetAddressOf());
-		
-		// RS
-		_deviceContext->RSSetState(_rasterizerState.Get());
 
-
-		// PS
-		_deviceContext->PSSetShader(_pixelShader->GetComPtr().Get(), nullptr, 0);
-		_deviceContext->PSSetShaderResources(0, 1, _texture1->GetComPtr().GetAddressOf());
-		_deviceContext->PSSetSamplers(0, 1, _samplerState.GetAddressOf());
-
-		// OM
-		_deviceContext->OMSetBlendState(_blendState.Get(), nullptr, 0xFFFFFFFF);
-		//_deviceContext->Draw(_vertexes.size(), 0);
-		_deviceContext->DrawIndexed(_geometry->GetIndexCount(), 0, 0);
+		_pipeline->SetVertexBuffer(_vertexBuffer);
+		_pipeline->SetIndexBuffer(_indexBuffer);
+		_pipeline->SetConstantBuffer(0, SS_VertexShader, _constantBuffer);
+		_pipeline->SetTexture(0, SS_PixelShader, _texture1);
+		_pipeline->SetSamplerState(0, SS_PixelShader, _samplerState);
+		_pipeline->DrawIndexed(_geometry->GetIndexCount(), 0, 0);
 	}
 
 	_graphics->RenderEnd();
 }
 
-void Game::CreateGeometry()
-{
-	// VertexData
-	GeometryHelper::CreateRectangle(_geometry);
-
-	// VertexBuffer
-	_vertexBuffer->Create(_geometry->GetVertexes());
-
-	// IndexBuffer
-	_indexBuffer->Create(_geometry->GetIndexes());
-}
-
-void Game::CreateRasterizerState()
-{
-	D3D11_RASTERIZER_DESC desc;
-	ZeroMemory(&desc, sizeof(desc));
-	desc.FillMode = D3D11_FILL_SOLID;
-	desc.CullMode = D3D11_CULL_BACK;
-	desc.FrontCounterClockwise = false;
-
-	HRESULT hr = _graphics->GetDevice()->CreateRasterizerState(&desc, _rasterizerState.GetAddressOf());
-	assert(SUCCEEDED(hr));
-}
-
-void Game::CreateSamplerState()
-{
-	D3D11_SAMPLER_DESC desc;
-	ZeroMemory(&desc, sizeof(desc));
-	desc.AddressU = D3D11_TEXTURE_ADDRESS_BORDER;
-	desc.AddressV = D3D11_TEXTURE_ADDRESS_BORDER;
-	desc.AddressW = D3D11_TEXTURE_ADDRESS_BORDER;
-	desc.BorderColor[0] = 1;
-	desc.BorderColor[1] = 0;
-	desc.BorderColor[2] = 0;
-	desc.BorderColor[3] = 1;
-	desc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
-
-	_graphics->GetDevice()->CreateSamplerState(&desc, _samplerState.GetAddressOf());
-}
-
-void Game::CreateBlendState()
-{
-	D3D11_BLEND_DESC desc;
-	ZeroMemory(&desc, sizeof(desc));
-	desc.AlphaToCoverageEnable = false;
-	desc.IndependentBlendEnable = false;
-	desc.RenderTarget[0].BlendEnable = true;
-	desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP::D3D11_BLEND_OP_ADD;
-	desc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
-	desc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
-	desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP::D3D11_BLEND_OP_ADD;
-	desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
-	desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
-	desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
-	_graphics->GetDevice()->CreateBlendState(&desc, _blendState.GetAddressOf());
-}
 
 
 

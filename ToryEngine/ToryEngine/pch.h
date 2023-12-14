@@ -36,6 +36,8 @@ using namespace Microsoft::WRL;
 #pragma comment(lib, "DirectXTex\\Release\\DirectXTex.lib")
 #endif
 
+#define CHECK(p)		assert(SUCCEEDED(p));
+
 // Engine
 #include "Graphics.h"
 #include "VertexBuffer.h"
@@ -47,3 +49,7 @@ using namespace Microsoft::WRL;
 #include "Shader.h"
 #include "ConstantBuffer.h"
 #include "Texture.h"
+#include "RasterizerState.h"
+#include "SamplerState.h"
+#include "BlendState.h"
+#include "Pipeline.h"
