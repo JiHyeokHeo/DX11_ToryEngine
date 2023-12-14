@@ -1,6 +1,5 @@
 #pragma once
 
-
 struct PipelineInfo
 {
 	shared_ptr<InputLayout> inputLayout;
