@@ -9,7 +9,7 @@ public:
 	~Game();
 
 public:
-	void Init(HWND hwnd);
+	void Awake(HWND hwnd);
 	void Update();
 	void Render();
 
@@ -19,5 +19,7 @@ private:
 	shared_ptr<Graphics> _graphics;
 	shared_ptr<Pipeline> _pipeline;
 
-	shared_ptr<GameObject> _gameObject;
+	// TEMP
+	shared_ptr<GameObject> _monster;
+	shared_ptr<GameObject> _camera;
 };

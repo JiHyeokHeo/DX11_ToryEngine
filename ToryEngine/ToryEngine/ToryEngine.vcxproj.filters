@@ -51,8 +51,17 @@
     <Filter Include="소스 파일\00.Engine\GameObject">
       <UniqueIdentifier>{b200d50c-8cd7-4b4f-b99e-0c25de3c9452}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\00.Engine\GameObject\Component">
+    <Filter Include="소스 파일\00.Engine\Component">
       <UniqueIdentifier>{765bbe46-d6b7-4291-bb5b-fc422e2fe8f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\00.Engine\Component\Animation">
+      <UniqueIdentifier>{be829f2d-576a-4fe1-9f9b-9a0d8b346a94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\00.Engine\Component\Camera">
+      <UniqueIdentifier>{5d918491-3561-4e94-bf91-73c3d5130eca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\00.Engine\Component\Rendering">
+      <UniqueIdentifier>{f62c7ed6-775b-42ff-8a71-7c6a0a1b17e4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -132,11 +141,15 @@
       <Filter>소스 파일\00.Engine\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="Component.h">
-      <Filter>소스 파일\00.Engine\GameObject\Component</Filter>
+      <Filter>소스 파일\00.Engine\Component</Filter>
     </ClInclude>
     <ClInclude Include="Transform.h">
-      <Filter>소스 파일\00.Engine\GameObject\Component</Filter>
+      <Filter>소스 파일\00.Engine\Component</Filter>
     </ClInclude>
+    <ClInclude Include="MonoBehaviour.h">
+      <Filter>소스 파일\00.Engine\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ToryEngine.rc">
@@ -210,10 +223,16 @@
       <Filter>소스 파일\00.Engine\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="Component.cpp">
-      <Filter>소스 파일\00.Engine\GameObject\Component</Filter>
+      <Filter>소스 파일\00.Engine\Component</Filter>
     </ClCompile>
     <ClCompile Include="Transform.cpp">
-      <Filter>소스 파일\00.Engine\GameObject\Component</Filter>
+      <Filter>소스 파일\00.Engine\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="MonoBehaviour.cpp">
+      <Filter>소스 파일\00.Engine\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
