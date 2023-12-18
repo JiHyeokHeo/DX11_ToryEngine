@@ -1,7 +1,7 @@
 #pragma once
 #include "Component.h"
 
-class MeshRenderer :  public Component
+class MeshRenderer : public Component
 {
 	using Super = Component;
 public:
@@ -13,7 +13,6 @@ public:
 
 private:
 	ComPtr<ID3D11Device> _device;
-	shared_ptr<Pipeline> _pipeline;
 
 	// Mesh
 	shared_ptr<Geometry<VertexTextureData>> _geometry;

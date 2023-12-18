@@ -1,6 +1,9 @@
 #pragma once
-class Texture
+#include "ResourceBase.h"
+
+class Texture : public ResourceBase
 {
+	using Super = ResourceBase;
 public:
 	Texture(ComPtr<ID3D11Device> device);
 	~Texture();
