@@ -26,7 +26,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         return FALSE;
     
     Game game;
-    game.Awake(hWnd);
+    game.Init(hWnd);
 
     MSG msg = {};
 

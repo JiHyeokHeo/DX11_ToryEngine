@@ -9,7 +9,7 @@ public:
 	~Game();
 
 public:
-	void Awake(HWND hwnd);
+	void Init(HWND hwnd);
 	void Update();
 	void Render();
 

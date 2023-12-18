@@ -13,12 +13,17 @@ struct VS_OUTPUT
     float2 uv : TEXCOORD;
 };
 
-cbuffer TrasnfromData : register(b0)
+cbuffer CameraData : register(b0)
 {
-    row_major matrix matWorld;
     row_major matrix matView;
     row_major matrix matProjection;
 }
+
+cbuffer TrasnfromData : register(b1)
+{
+    row_major matrix matWorld;
+}
+
 
 //     ¿©±â
 // IA - VS - RS - PS - OM
