@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GameObject.h"
+class SceneManager;
 
 class Game
 {
@@ -13,13 +13,17 @@ public:
 	void Update();
 	void Render();
 
+	shared_ptr<SceneManager> GetSceneManager() { return _scene; }
+
+	shared_ptr<Pipeline> GetPipeline() { return _pipeline; }
 private:
 	HWND _hwnd;
 
 	shared_ptr<Graphics> _graphics;
 	shared_ptr<Pipeline> _pipeline;
 
-	// TEMP
-	shared_ptr<GameObject> _monster;
-	shared_ptr<GameObject> _camera;
+private:
+	shared_ptr<SceneManager> _scene;
 };
+
+extern unique_ptr<Game> GGame;

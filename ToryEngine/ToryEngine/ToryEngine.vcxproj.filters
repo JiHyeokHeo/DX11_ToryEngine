@@ -63,6 +63,18 @@
     <Filter Include="소스 파일\00.Engine\Component\Rendering">
       <UniqueIdentifier>{f62c7ed6-775b-42ff-8a71-7c6a0a1b17e4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\00.Engine\Manager">
+      <UniqueIdentifier>{fc375e66-28d5-44a5-bcae-4f09ea30b080}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\00.Engine\Manager\Input">
+      <UniqueIdentifier>{90553117-cad3-43a6-8972-a82b3d9f7423}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\00.Engine\Manager\Time">
+      <UniqueIdentifier>{961e377d-f7c9-4972-acda-38172ba1fed7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\00.Engine\Manager\Scene">
+      <UniqueIdentifier>{18865d38-dcbf-4496-83cc-1e0c2e744c2c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ToryEngine.h">
@@ -155,6 +167,12 @@
     <ClInclude Include="MeshRenderer.h">
       <Filter>소스 파일\00.Engine\Component\Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>소스 파일\00.Engine\Manager\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>소스 파일\00.Engine\Manager\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ToryEngine.rc">
@@ -241,6 +259,12 @@
     </ClCompile>
     <ClCompile Include="MeshRenderer.cpp">
       <Filter>소스 파일\00.Engine\Component\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>소스 파일\00.Engine\Manager\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>소스 파일\00.Engine\Manager\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

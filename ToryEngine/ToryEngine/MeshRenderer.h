@@ -13,6 +13,7 @@ public:
 
 private:
 	ComPtr<ID3D11Device> _device;
+	shared_ptr<Pipeline> _pipeline;
 
 	// Mesh
 	shared_ptr<Geometry<VertexTextureData>> _geometry;
@@ -25,6 +26,7 @@ private:
 	shared_ptr<RasterizerState> _rasterizerState;
 	shared_ptr<PixelShader> _pixelShader;
 	shared_ptr<Texture> _texture1;
+
 	shared_ptr<SamplerState> _samplerState;
 	shared_ptr<BlendState> _blendState;
 

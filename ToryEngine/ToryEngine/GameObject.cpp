@@ -19,7 +19,8 @@ void GameObject::Awake()
 {
 	for (shared_ptr<Component>& component : _components)
 	{
-		component->Awake();
+		if (component)
+			component->Awake();
 	}
 
 	for (shared_ptr<MonoBehaviour>& script : _scripts)
