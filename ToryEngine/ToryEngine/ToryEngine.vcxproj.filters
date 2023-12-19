@@ -81,6 +81,9 @@
     <Filter Include="소스 파일\00.Engine\Resource">
       <UniqueIdentifier>{461eac76-3ed7-4285-82d5-72394c3b2bc1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\00.Engine\Manager\Render">
+      <UniqueIdentifier>{91a2b900-4b92-4de9-9580-daea5ab6a1be}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ToryEngine.h">
@@ -203,6 +206,12 @@
     <ClInclude Include="Mesh.h">
       <Filter>소스 파일\00.Engine\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="RenderManager.h">
+      <Filter>소스 파일\00.Engine\Manager\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderHelper.h">
+      <Filter>소스 파일\00.Engine\Manager\Render</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ToryEngine.rc">
@@ -319,6 +328,12 @@
     </ClCompile>
     <ClCompile Include="Mesh.cpp">
       <Filter>소스 파일\00.Engine\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderManager.cpp">
+      <Filter>소스 파일\00.Engine\Manager\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderHelper.cpp">
+      <Filter>소스 파일\00.Engine\Manager\Render</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

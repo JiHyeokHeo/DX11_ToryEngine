@@ -44,6 +44,7 @@ using namespace Microsoft::WRL;
 #define		INPUT		GAME->GetInputManager()
 #define		TIME		GAME->GetTimeManager()
 #define		RESOURCES	GAME->GetResourceManager()
+#define		RENDER		GAME->GetRenderManager()
 
 // Engine
 #include "Graphics.h"
